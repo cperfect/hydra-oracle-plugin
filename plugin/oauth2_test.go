@@ -5,10 +5,10 @@ import (
 	"os"
 	"testing"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/ory/fosite"
 	"github.com/ory/hydra/client"
 	"github.com/ory/hydra/oauth2"
+	"github.com/sirupsen/logrus"
 )
 
 var oauth2Manager *FositeStore

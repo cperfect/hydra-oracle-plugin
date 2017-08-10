@@ -1,19 +1,25 @@
 package: github.com/ory/hydra-oracle-plugin
 import:
-- package: github.com/Sirupsen/logrus
-  version: v1.0.0
+# - package: github.com/sirupsen/logrus
+#   version: master
+# - package: github.com/Sirupsen/logrus
+#   version: master
+#   repo: https://github.com/sirupsen/logrus.git
+#   vcs: git
+- package: github.com/sirupsen/logrus
+  version: master
 - package: github.com/jmoiron/sqlx
 - package: github.com/ory/fosite
   version: v0.9.5
 - package: github.com/ory/hydra
-  version: v0.9.7
+  version: v0.9.12
   subpackages:
   - client
   - jwk
   - pkg
   - warden/group
 - package: github.com/ory/ladon
-  version: v0.7.7
+  version: v0.8.1
   subpackages:
   - compiler
 - package: github.com/pborman/uuid

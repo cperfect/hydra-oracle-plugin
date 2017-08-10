@@ -5,7 +5,6 @@ import "C"
 import (
 	"fmt"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/jmoiron/sqlx"
 	"github.com/ory/fosite"
 	"github.com/ory/hydra/client"
@@ -14,6 +13,7 @@ import (
 	"github.com/ory/hydra/warden/group"
 	"github.com/ory/ladon"
 	"github.com/pkg/errors"
+	"github.com/sirupsen/logrus"
 	_ "gopkg.in/rana/ora.v4"
 )
 

@@ -114,6 +114,10 @@ func (s *PolicyManager) CreateSchemas() (int, error) {
 	return 1, nil
 }
 
+func (s *PolicyManager) Update(policy Policy) error {
+	return errors.New("Not implemented") //TODO look at implementing this?
+}
+
 // Create inserts a new policy
 func (s *PolicyManager) Create(policy Policy) (err error) {
 	conditions := []byte("{}")

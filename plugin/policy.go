@@ -1,4 +1,4 @@
-package main
+package plugin
 
 import (
 	"crypto/sha256"
@@ -244,7 +244,7 @@ func scanRows(rows *sql.Rows) (Policies, error) {
 				policies[p.ID].Actions = append(c.Actions, action.String)
 			}
 
-			if subject.Valid&& subject.String != ""  {
+			if subject.Valid && subject.String != "" {
 				policies[p.ID].Subjects = append(c.Subjects, subject.String)
 			}
 
@@ -256,7 +256,7 @@ func scanRows(rows *sql.Rows) (Policies, error) {
 				p.Actions = []string{action.String}
 			}
 
-			if subject.Valid&& subject.String != ""  {
+			if subject.Valid && subject.String != "" {
 				p.Subjects = []string{subject.String}
 			}
 
@@ -314,7 +314,7 @@ func (s *PolicyManager) GetAll(limit, offset int64) (Policies, error) {
 		return nil, errors.WithStack(err)
 	}
 
-	if offset + limit > int64(len(pols)) {
+	if offset+limit > int64(len(pols)) {
 		limit = int64(len(pols))
 		offset = 0
 	}

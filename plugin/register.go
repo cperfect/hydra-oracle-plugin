@@ -1,6 +1,4 @@
-// TODO put flag here for use in hydra builds
-
-package main
+package plugin
 
 import (
 	"github.com/jmoiron/sqlx"

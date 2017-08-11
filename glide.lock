@@ -1,5 +1,5 @@
-hash: 6fe90f49b9b36f717faa6901a39d4d2b7e3c5d23641896efe91ef66195d1083a
-updated: 2017-08-10T15:22:39.760406147+10:00
+hash: f79c5e80d2a880432fa6ea83fe173217b7a77ba580823a543e07ab5509a16951
+updated: 2017-08-11T13:45:00.230446972+10:00
 imports:
 - name: github.com/asaskevich/govalidator
   version: 4918b99a7cb949bb295f3c7bbaf24b577d806e35
@@ -67,9 +67,12 @@ imports:
 - name: github.com/ory/herodot
   version: 5bb399b8a5aa583343a2108e723b990432b4a1b4
 - name: github.com/ory/hydra
-  version: 4651a2303a695ed79955ae64ec9fd7e5dc697906
+  version: 2a2d6dfa26a78cc94d27516da0247c0f4381bcd3
+  repo: https://github.com/cperfect/hydra.git
+  vcs: git
   subpackages:
   - client
+  - config
   - firewall
   - jwk
   - oauth2

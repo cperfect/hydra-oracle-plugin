@@ -12,12 +12,15 @@ import:
 - package: github.com/ory/fosite
   version: v0.9.5
 - package: github.com/ory/hydra
-  version: v0.9.12
+  version: vendored-oracle-plugin
+  repo: https://github.com/cperfect/hydra.git
+  vcs: git
   subpackages:
   - client
   - jwk
   - pkg
   - warden/group
+  - config
 - package: github.com/ory/ladon
   version: v0.8.1
   subpackages:

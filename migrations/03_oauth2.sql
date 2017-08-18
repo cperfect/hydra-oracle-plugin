@@ -1,0 +1,70 @@
+-- +goose Up
+-- +goose StatementBegin
+CREATE TABLE hyd_oa2_o (
+	SIGNATURE      	varchar(255) NOT NULL PRIMARY KEY,
+	REQUEST_ID  	varchar(255) NOT NULL,
+	REQUESTED_AT  	TIMESTAMP NOT NULL,
+	CLIENT_ID  		VARCHAR2 (4000) NULL,
+	SCOPE  			VARCHAR2 (4000) NULL,
+	GRANTED_SCOPE 	VARCHAR2 (4000) NULL,
+	FORM_DATA  		VARCHAR2 (4000) NULL,
+	SESSION_DATA  	VARCHAR2 (4000) NULL
+)
+-- +goose StatementEnd
+
+-- +goose StatementBegin
+CREATE TABLE hyd_oa2_a (
+	SIGNATURE      	varchar(255) NOT NULL PRIMARY KEY,
+	REQUEST_ID  	varchar(255) NOT NULL,
+	REQUESTED_AT  	TIMESTAMP NOT NULL,
+	CLIENT_ID  		VARCHAR2 (4000) NULL,
+	SCOPE  			VARCHAR2 (4000) NULL,
+	GRANTED_SCOPE 	VARCHAR2 (4000) NULL,
+	FORM_DATA  		VARCHAR2 (4000) NULL,
+	SESSION_DATA  	VARCHAR2 (4000) NULL
+)
+-- +goose StatementEnd
+
+-- +goose StatementBegin
+CREATE TABLE hyd_oa2_r (
+	SIGNATURE      	varchar(255) NOT NULL PRIMARY KEY,
+	REQUEST_ID  	varchar(255) NOT NULL,
+	REQUESTED_AT  	TIMESTAMP NOT NULL,
+	CLIENT_ID  		VARCHAR2 (4000) NULL,
+	SCOPE  			VARCHAR2 (4000) NULL,
+	GRANTED_SCOPE 	VARCHAR2 (4000) NULL,
+	FORM_DATA  		VARCHAR2 (4000) NULL,
+	SESSION_DATA  	VARCHAR2 (4000) NULL
+)
+-- +goose StatementEnd
+
+-- +goose StatementBegin
+CREATE TABLE hyd_oa2_c (
+	SIGNATURE      	varchar(255) NOT NULL PRIMARY KEY,
+	REQUEST_ID  	varchar(255) NOT NULL,
+	REQUESTED_AT  	TIMESTAMP NOT NULL,
+	CLIENT_ID  		VARCHAR2 (4000) NULL,
+	SCOPE  			VARCHAR2 (4000) NULL,
+	GRANTED_SCOPE 	VARCHAR2 (4000) NULL,
+	FORM_DATA  		VARCHAR2 (4000) NULL,
+	SESSION_DATA  	VARCHAR2 (4000) NULL
+)
+-- +goose StatementEnd
+
+
+-- +goose Down
+-- +goose StatementBegin
+DROP TABLE hyd_oa2_o
+-- +goose StatementEnd
+
+-- +goose StatementBegin
+DROP TABLE hyd_oa2_a
+-- +goose StatementEnd
+
+-- +goose StatementBegin
+DROP TABLE hyd_oa2_r
+-- +goose StatementEnd
+
+-- +goose StatementBegin
+DROP TABLE hyd_oa2_c
+-- +goose StatementEnd

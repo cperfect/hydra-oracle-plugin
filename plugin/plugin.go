@@ -14,7 +14,8 @@ import (
 	"github.com/ory/ladon"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
-	_ "gopkg.in/rana/ora.v4"
+	//_ "gopkg.in/rana/ora.v4"
+	_ "github.com/go-goracle/goracle"
 )
 
 func Connect(u string) (*sqlx.DB, error) {

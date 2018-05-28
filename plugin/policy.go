@@ -118,6 +118,13 @@ func (s *PolicyManager) Update(policy Policy) error {
 	return errors.New("Not implemented") //TODO look at implementing this?
 }
 
+func hasRegex(policy Policy, template string) string {
+	if strings.Index(template, string(policy.GetStartDelimiter())) > -1 {
+		return "1"
+	}
+	return "0"
+}
+
 // Create inserts a new policy
 func (s *PolicyManager) Create(policy Policy) (err error) {
 	conditions := []byte("{}")
@@ -163,7 +170,7 @@ func (s *PolicyManager) Create(policy Policy) (err error) {
 				return errors.WithStack(err)
 			}
 
-			if _, err := tx.Exec(s.DB.Rebind(fmt.Sprintf("INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX (%[1]s_%[2]s, %[1]s_%[2]s_pk_idx) */ INTO %[1]s_%[2]s (ID, TEMPLATE, COMPILED, HAS_REGEX) VALUES (?, ?, ?, ?)", s.GetTable(), v.t)), id, template, compiled.String(), strings.Index(template, string(policy.GetStartDelimiter())) > -1); err != nil {
+			if _, err := tx.Exec(s.DB.Rebind(fmt.Sprintf("INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX (%[1]s_%[2]s, %[1]s_%[2]s_pk_idx) */ INTO %[1]s_%[2]s (ID, TEMPLATE, COMPILED, HAS_REGEX) VALUES (?, ?, ?, ?)", s.GetTable(), v.t)), id, template, compiled.String(), hasRegex(policy, template)); err != nil {
 				if err := tx.Rollback(); err != nil {
 					return errors.WithStack(err)
 				}

@@ -11,7 +11,7 @@ import (
 
 func connect(url string) *sqlx.DB {
 	host, database := GetDatabase(url)
-	db, err := sqlx.Open("ora", host)
+	db, err := sqlx.Open("goracle", host)
 	if err != nil {
 		log.Fatalf("Could not connect to SQL instance: %s", err)
 	}

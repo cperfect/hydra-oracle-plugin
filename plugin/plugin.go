@@ -5,6 +5,7 @@ import "C"
 import (
 	"fmt"
 
+	_ "github.com/go-goracle/goracle"
 	"github.com/jmoiron/sqlx"
 	"github.com/ory/fosite"
 	"github.com/ory/hydra/client"
@@ -14,13 +15,11 @@ import (
 	"github.com/ory/ladon"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
-	//_ "gopkg.in/rana/ora.v4"
-	_ "github.com/go-goracle/goracle"
 )
 
 func Connect(u string) (*sqlx.DB, error) {
 	host, database := GetDatabase(u)
-	db, err := sqlx.Open("ora", host)
+	db, err := sqlx.Open("goracle", host)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}

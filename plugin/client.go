@@ -54,7 +54,7 @@ type clientSqlData struct {
 	ClientURI         string `db:"CLIENT_URI"`
 	LogoURI           string `db:"LOGO_URI"`
 	Contacts          string `db:"CONTACTS"`
-	Public            bool   `db:"IS_PUBLIC"`
+	Public            string `db:"IS_PUBLIC"`
 }
 
 var clientSqlParams = []string{
@@ -75,6 +75,12 @@ var clientSqlParams = []string{
 }
 
 func clientSqlDataFromClient(d *client.Client) *clientSqlData {
+	var public string
+	if d.Public {
+		public = "1"
+	} else {
+		public = "0"
+	}
 	return &clientSqlData{
 		ID:                d.ID,
 		Name:              d.Name,
@@ -89,7 +95,7 @@ func clientSqlDataFromClient(d *client.Client) *clientSqlData {
 		ClientURI:         d.ClientURI,
 		LogoURI:           d.LogoURI,
 		Contacts:          strings.Join(d.Contacts, "|"),
-		Public:            d.Public,
+		Public:            public,
 	}
 }
 
@@ -108,7 +114,7 @@ func (d *clientSqlData) ToClient() *client.Client {
 		ClientURI:         d.ClientURI,
 		LogoURI:           d.LogoURI,
 		Contacts:          pkg.SplitNonEmpty(d.Contacts, "|"),
-		Public:            d.Public,
+		Public:            (d.Public == "1"),
 	}
 }
 

@@ -27,13 +27,13 @@ func init() {
 }
 
 func TestClientAutoGenerateKey(t *testing.T) {
-	client.TestHelperClientAutoGenerateKey("ora", clientManager)(t)
+	client.TestHelperClientAutoGenerateKey("goracle", clientManager)(t)
 }
 
 func TestCreateGetDeleteClient(t *testing.T) {
-	client.TestHelperCreateGetDeleteClient("ora", clientManager)(t)
+	client.TestHelperCreateGetDeleteClient("goracle", clientManager)(t)
 }
 
 func TestAuthenticateClient(t *testing.T) {
-	client.TestHelperClientAuthenticate("ora", clientManager)(t)
+	client.TestHelperClientAuthenticate("goracle", clientManager)(t)
 }

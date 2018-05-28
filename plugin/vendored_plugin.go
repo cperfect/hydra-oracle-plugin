@@ -1,6 +1,7 @@
 package plugin
 
 import (
+	_ "github.com/go-goracle/goracle"
 	"github.com/jmoiron/sqlx"
 	"github.com/ory/fosite"
 	"github.com/ory/hydra/client"
@@ -9,7 +10,6 @@ import (
 	"github.com/ory/hydra/warden/group"
 	"github.com/ory/ladon"
 	"github.com/sirupsen/logrus"
-	_ "gopkg.in/rana/ora.v4"
 )
 
 /**

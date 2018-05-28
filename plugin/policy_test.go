@@ -25,7 +25,7 @@ func init() {
 // This test is skipped because the method was deprecated
 //
 func TestFindPoliciesForSubject(t *testing.T) {
-	ladon.TestHelperFindPoliciesForSubject("ora", policyManager)(t)
+	ladon.TestHelperFindPoliciesForSubject("goracle", policyManager)(t)
 }
 
 func TestCreateGetDelete(t *testing.T) {

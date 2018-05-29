@@ -148,7 +148,7 @@ func (s *FositeStore) createSession(SIGNATURE string, requester fosite.Requester
 func (s *FositeStore) findSessionBySignature(SIGNATURE string, session fosite.Session, table string) (fosite.Requester, error) {
 	fmt.Printf("find session by sig %s %s %s", SIGNATURE, s.GetTable(), table)
 	var d sqlData
-	if err := s.DB.Get(&d, s.DB.Rebind(fmt.Sprintf("SELECT * FROM %s_%s WHERE SIGNATURE=?", s.GetTable(), table)), SIGNATURE); err == sql.ErrNoRows {
+	if err := s.DB.Get(&d, s.DB.Rebind(fmt.Sprintf("SELECT * FROM %s_%s WHERE SIGNATURE=?", s.GetTable(), table)), SIGNATURE, stmtOptions); err == sql.ErrNoRows {
 		fmt.Printf("errrrrrrrrrrr: %s", err)
 		return nil, errors.Wrap(fosite.ErrNotFound, "")
 	} else if err != nil {

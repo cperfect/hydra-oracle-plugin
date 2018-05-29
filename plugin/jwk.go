@@ -61,7 +61,7 @@ func (m *JWKManager) AddKey(set string, key *jose.JsonWebKey) error {
 		return errors.WithStack(err)
 	}
 
-	query := fmt.Sprintf(`INSERT INTO %s (SID, KID, VERSION, KEYDATA) VALUES (:SID, :KID, :VERSION, :KEYDATA)`, m.GetTable())
+	query := fmt.Sprintf(`INSERT INTO %s (SID, KID, VERSION, KEYDATA) VALUES (:SID, :KID, :VERSION, :KEYDATA)`, m.GetTable(), stmtOptions)
 	if _, err = m.DB.NamedExec(query, &jwkSQLData{
 		Set:     set,
 		KID:     key.KeyID,
@@ -96,7 +96,7 @@ func (m *JWKManager) AddKeySet(set string, keys *jose.JsonWebKeySet) error {
 			return errors.WithStack(err)
 		}
 
-		query := fmt.Sprintf(`INSERT INTO %s (SID, KID, VERSION, KEYDATA) VALUES (:SID, :KID, :VERSION, :KEYDATA)`, m.GetTable())
+		query := fmt.Sprintf(`INSERT INTO %s (SID, KID, VERSION, KEYDATA) VALUES (:SID, :KID, :VERSION, :KEYDATA)`, m.GetTable(), stmtOptions)
 		if _, err = tx.NamedExec(query, &jwkSQLData{
 			Set:     set,
 			KID:     key.KeyID,
@@ -121,7 +121,7 @@ func (m *JWKManager) AddKeySet(set string, keys *jose.JsonWebKeySet) error {
 
 func (m *JWKManager) GetKey(set, KID string) (*jose.JsonWebKeySet, error) {
 	var d jwkSQLData
-	query := fmt.Sprintf("SELECT * FROM %s WHERE SID=? AND KID=?", m.GetTable())
+	query := fmt.Sprintf("SELECT * FROM %s WHERE SID=? AND KID=?", m.GetTable(), stmtOptions)
 	if err := m.DB.Get(&d, m.DB.Rebind(query), set, KID); err == sql.ErrNoRows {
 		return nil, errors.Wrap(pkg.ErrNotFound, "")
 	} else if err != nil {
@@ -145,7 +145,7 @@ func (m *JWKManager) GetKey(set, KID string) (*jose.JsonWebKeySet, error) {
 
 func (m *JWKManager) GetKeySet(set string) (*jose.JsonWebKeySet, error) {
 	var ds []jwkSQLData
-	query := fmt.Sprintf("SELECT * FROM %s WHERE SID=?", m.GetTable())
+	query := fmt.Sprintf("SELECT * FROM %s WHERE SID=?", m.GetTable(), stmtOptions)
 	if err := m.DB.Select(&ds, m.DB.Rebind(query), set); err == sql.ErrNoRows {
 		return nil, errors.Wrap(pkg.ErrNotFound, "")
 	} else if err != nil {

@@ -142,7 +142,7 @@ func (s *PolicyManager) Create(policy Policy) (err error) {
 	}
 
 	query := fmt.Sprintf("INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX (%[1]s_p, %[1]s_p_pk_idx ) */ INTO %[1]s_p (ID, DESCRIPTION, EFFECT, CONDITIONS) VALUES (?, ?, ?, ?)", s.GetTable())
-	if _, err = tx.Exec(s.DB.Rebind(query), policy.GetID(), policy.GetDescription(), policy.GetEffect(), conditions); err != nil {
+	if _, err = tx.Exec(s.DB.Rebind(query), policy.GetID(), policy.GetDescription(), policy.GetEffect(), conditions, stmtOptions); err != nil {
 		if err := tx.Rollback(); err != nil {
 			return errors.WithStack(err)
 		}
@@ -170,14 +170,14 @@ func (s *PolicyManager) Create(policy Policy) (err error) {
 				return errors.WithStack(err)
 			}
 
-			if _, err := tx.Exec(s.DB.Rebind(fmt.Sprintf("INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX (%[1]s_%[2]s, %[1]s_%[2]s_pk_idx) */ INTO %[1]s_%[2]s (ID, TEMPLATE, COMPILED, HAS_REGEX) VALUES (?, ?, ?, ?)", s.GetTable(), v.t)), id, template, compiled.String(), hasRegex(policy, template)); err != nil {
+			if _, err := tx.Exec(s.DB.Rebind(fmt.Sprintf("INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX (%[1]s_%[2]s, %[1]s_%[2]s_pk_idx) */ INTO %[1]s_%[2]s (ID, TEMPLATE, COMPILED, HAS_REGEX) VALUES (?, ?, ?, ?)", s.GetTable(), v.t)), id, template, compiled.String(), hasRegex(policy, template), stmtOptions); err != nil {
 				if err := tx.Rollback(); err != nil {
 					return errors.WithStack(err)
 				}
 				return errors.WithStack(err)
 			}
 
-			if _, err := tx.Exec(s.DB.Rebind(fmt.Sprintf("INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX (%[1]s_%[2]sr, %[1]s_%[2]sr_pk_idx) */ INTO %[1]s_%[2]sr (POLICY, %[3]s) VALUES (?, ?)", s.GetTable(), v.t, v.c)), policy.GetID(), id); err != nil {
+			if _, err := tx.Exec(s.DB.Rebind(fmt.Sprintf("INSERT /*+ IGNORE_ROW_ON_DUPKEY_INDEX (%[1]s_%[2]sr, %[1]s_%[2]sr_pk_idx) */ INTO %[1]s_%[2]sr (POLICY, %[3]s) VALUES (?, ?)", s.GetTable(), v.t, v.c)), policy.GetID(), id, stmtOptions); err != nil {
 				if err := tx.Rollback(); err != nil {
 					return errors.WithStack(err)
 				}
@@ -217,7 +217,7 @@ OR
 ( tsubject.HAS_REGEX = 1 AND REGEXP_LIKE (?, tsubject.COMPILED) )
 `, s.GetTable())
 
-	rows, err := s.DB.Query(s.DB.Rebind(query), r.Subject, r.Subject)
+	rows, err := s.DB.Query(s.DB.Rebind(query), r.Subject, r.Subject, stmtOptions)
 	if err == sql.ErrNoRows {
 		return nil, NewErrResourceNotFound(err)
 	} else if err != nil {
@@ -314,7 +314,7 @@ var policyGetAllQuery = func(table string) string {
 func (s *PolicyManager) GetAll(limit, offset int64) (Policies, error) {
 	query := s.DB.Rebind(policyGetAllQuery(s.GetTable()))
 
-	rows, err := s.DB.Query(query)
+	rows, err := s.DB.Query(query, stmtOptions)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
@@ -337,7 +337,7 @@ func (s *PolicyManager) GetAll(limit, offset int64) (Policies, error) {
 func (s *PolicyManager) Get(id string) (Policy, error) {
 	query := s.DB.Rebind(policyGetAllQuery(s.GetTable()) + "WHERE p.ID=?")
 
-	rows, err := s.DB.Query(query, id)
+	rows, err := s.DB.Query(query, id, stmtOptions)
 	if err == sql.ErrNoRows {
 		return nil, NewErrResourceNotFound(err)
 	} else if err != nil {

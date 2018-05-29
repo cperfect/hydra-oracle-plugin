@@ -134,7 +134,7 @@ func (m *ClientManager) GetTable() string {
 
 func (m *ClientManager) GetConcreteClient(ID string) (*client.Client, error) {
 	var d clientSqlData
-	if err := m.DB.Get(&d, m.DB.Rebind(fmt.Sprintf("SELECT * FROM %s WHERE ID=?", m.GetTable())), ID); err == sql.ErrNoRows {
+	if err := m.DB.Get(&d, m.DB.Rebind(fmt.Sprintf("SELECT * FROM %s WHERE ID=?", m.GetTable())), ID, stmtOptions); err == sql.ErrNoRows {
 		return nil, errors.Wrap(pkg.ErrNotFound, "")
 	} else if err != nil {
 		return nil, errors.WithStack(err)
@@ -169,7 +169,7 @@ func (m *ClientManager) UpdateClient(c *client.Client) error {
 		update = append(update, fmt.Sprintf("%s=:%s", param, param))
 	}
 
-	if _, err := m.DB.NamedExec(fmt.Sprintf(`UPDATE %s SET %s WHERE ID=:ID`, m.GetTable(), strings.Join(update, ", ")), s); err != nil {
+	if _, err := m.DB.NamedExec(fmt.Sprintf(`UPDATE %s SET %s WHERE ID=:ID`, m.GetTable(), strings.Join(update, ", "), stmtOptions), s); err != nil {
 		return errors.WithStack(err)
 	}
 	return nil
@@ -223,7 +223,7 @@ func (m *ClientManager) GetClients() (clients map[string]client.Client, err erro
 	var d = []clientSqlData{}
 	clients = make(map[string]client.Client)
 
-	if err := m.DB.Select(&d, fmt.Sprintf("SELECT * FROM %s", m.GetTable())); err != nil {
+	if err := m.DB.Select(&d, fmt.Sprintf("SELECT * FROM %s", m.GetTable()), stmtOptions); err != nil {
 		return nil, errors.WithStack(err)
 	}
 
